@@ -46,7 +46,6 @@ def check_domain_sku_status(domain):
             write.write(domain + "\n")
     else:
         print("The domain: " + domain + ". Can't do anything")
-
 def get_domain_can_register(domain):
     url = "https://who.is/whois/" + domain
     x = requests.get(url)
@@ -54,27 +53,22 @@ def get_domain_can_register(domain):
         return True
     else:
         return False
+    
 
-count = 0
-
-controller = Controller.from_port(port=9151)
-controller.authenticate()
-socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", 9150)
-socket.socket = socks.socksocket
-
-with open("nces.ed.gov.txt", 'r') as f:
-    print(len(f.readlines()))
+    
+    
 #yms=0
 
 f = open("nces.ed.gov.txt")
 line = f.readline()
 while line:
     #print line,
-    yms=print(line, end = '')
+    yms=line
+    print(line, end = '')
     line = f.readline()
     zcjc = get_domain_can_register(yms)
     if zcjc == True:
         check_domain_sku_status(domain)
-    #time.sleep(0.01)
+    time.sleep(0.1)
 
 f.close()
