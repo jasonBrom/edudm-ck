@@ -46,11 +46,15 @@ def check_domain_sku_status(domain):
             write.write(domain + "\n")
     else:
         print("The domain: " + domain + ". Can't do anything")
+        with open("domain_erro.txt", "a") as write:
+            write.write(domain + "\n")
+
+
         
 def get_domain_can_register(domain):
     url = "http://panda.www.net.cn/cgi-bin/check.cgi?area_domain=" + domain
     x = requests.get(url)
-    if "210 : Domain name is available" in x.text or "NOT FOUND" in x.text:
+    if "<original>210" in x.text or "NOT FOUND" in x.text:
         return True
     else:
         return False
@@ -71,9 +75,10 @@ while line:
     zcjc = get_domain_can_register(yms)
     print(zcjc);
     if zcjc == True:
+        yms = yms.replace("\n","")
+        print("\033[7;32;41m%s\033[0m"%yms)
+        check_domain_sku_status(yms)
         
-        check_domain_sku_status(domain)
-        
-    time.sleep(0.01)
+    time.sleep(0.001)
 
 f.close()
